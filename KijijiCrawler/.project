@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
 	<name>KijijiCrawler</name>
@@ -16,22 +15,3 @@
 		<nature>org.python.pydev.pythonNature</nature>
 	</natures>
 </projectDescription>
-=======
-<?xml version="1.0" encoding="UTF-8"?>
-<projectDescription>
-	<name>KijijiCrawler</name>
-	<comment></comment>
-	<projects>
-	</projects>
-	<buildSpec>
-		<buildCommand>
-			<name>org.python.pydev.PyDevBuilder</name>
-			<arguments>
-			</arguments>
-		</buildCommand>
-	</buildSpec>
-	<natures>
-		<nature>org.python.pydev.pythonNature</nature>
-	</natures>
-</projectDescription>
->>>>>>> da083938041e136eb65c6d89b98193abacb18a22

@@ -1,5 +1,6 @@
 import urllib2
 import re
+from lxml import etree
 from bs4 import BeautifulSoup
 
 def downloadAdsFromResultsPage(resultsPageUrl):

@@ -5,7 +5,9 @@ from bs4 import BeautifulSoup
 def downloadAdsFromResultsPage(resultsPageUrl):
     response = urllib2.urlopen(resultsPageUrl)
     html = response.read()
-    soup = BeautifulSoup(html, "lxml") # Must use the lxml HTML parser even though it has external dependecies, because the default python one is not good enough to parse the Kijiji pages
+    # Must use the lxml HTML parser even though it has external dependecies, because the default python one is not good enough to parse the Kijiji pages
+    # lxml Windows distribution was downloaded from http://www.lfd.uci.edu/~gohlke/pythonlibs/#lxml
+    soup = BeautifulSoup(html, "lxml") 
 
     #Extract urls of each classified ad
     for row in soup.body.find_all(id=re.compile('resultRow.*')):

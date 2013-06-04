@@ -13,7 +13,21 @@ def parseFile(kijijiAd):
     
     # Must use the lxml HTML parser even though it has external dependecies, because the default python one is not good enough to parse the Kijiji pages
     # lxml Windows distribution was downloaded from http://www.lfd.uci.edu/~gohlke/pythonlibs/#lxml
-    soup = BeautifulSoup(html, "lxml") 
+    soup = BeautifulSoup(html, "lxml")
+    
+    #Extract urls of each classified ad
+    categories = soup.body.find_all('span', itemprop="title")
+    if len(categories) > 0:
+        appartmentType = categories[-1].text;
+        
+    attrTable = soup.body.find('table', id="attributeTable")
+    for attrRow in attrTable.find_all('tr'):
+        attrCols = attrRow.find_all('td')
+        if (len(attrCols) >= 2):
+            attrName = attrCols[0]
+            attrVal = attrCols[1]
+            print(attrName.text + " = " + attrVal.text) 
+    print(appartmentType + ";")
     
     
 def analyzeFolder(folder):

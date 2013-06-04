@@ -2,3 +2,23 @@
 data
 
 data
+
+/KijijiCrawler/src/bs4/*.pyc
+/KijijiCrawler/src/bs4/builder/*.pyc
+/KijijiCrawler/src/bs4/builder/*.pyc
+/KijijiCrawler/src/bs4/builder/*.pyc
+/KijijiCrawler/src/bs4/builder/*.pyc
+/KijijiCrawler/src/bs4/*.pyc
+/KijijiCrawler/src/bs4/*.pyc
+/KijijiCrawler/src/lxml/*.pyc
+/KijijiCrawler/src/lxml/*.pyc
+/KijijiParser/src/bs4/*.pyc
+/KijijiParser/src/bs4/builder/*.pyc
+/KijijiParser/src/bs4/builder/*.pyc
+/KijijiParser/src/bs4/builder/*.pyc
+/KijijiParser/src/bs4/builder/*.pyc
+/KijijiParser/src/bs4/*.pyc
+/KijijiParser/src/bs4/*.pyc
+/KijijiParser/src/bs4/*.pyc
+/KijijiParser/src/lxml/*.pyc
+/KijijiParser/src/lxml/*.pyc

@@ -1,7 +1,10 @@
+# -*- coding: utf-8 -*-
+
 from bs4 import BeautifulSoup
 import sys
 import os
 from os import listdir
+import RealEstate
 
 def displayHelp():
     print("usage : " + os.path.basename(sys.argv[0]) + " <Kijiji ads folder> <destination CSV file>")
@@ -15,19 +18,18 @@ def parseFile(kijijiAd):
     # lxml Windows distribution was downloaded from http://www.lfd.uci.edu/~gohlke/pythonlibs/#lxml
     soup = BeautifulSoup(html, "lxml")
     
-    #Extract urls of each classified ad
+    asset = RealEstate.Asset() 
     categories = soup.body.find_all('span', itemprop="title")
     if len(categories) > 0:
-        appartmentType = categories[-1].text;
+        asset.type = categories[-1].text;
         
     attrTable = soup.body.find('table', id="attributeTable")
     for attrRow in attrTable.find_all('tr'):
         attrCols = attrRow.find_all('td')
         if (len(attrCols) >= 2):
-            attrName = attrCols[0]
-            attrVal = attrCols[1]
-            print(attrName.text + " = " + attrVal.text) 
-    print(appartmentType + ";")
+            asset.updateAttribute(attrCols[0].text, attrCols[1].text)
+
+    print(asset.dateListed + ";" + asset.type + ";" + asset.address + ";" + asset.rent)
     
     
 def analyzeFolder(folder):
@@ -45,13 +47,13 @@ def main():
 
     kjijiAdsFolder = sys.argv[1]
     if not os.path.exists(kjijiAdsFolder):
-        printf(kjijiAdsFolder + " doesn't exist") 
+        print(kjijiAdsFolder + " doesn't exist") 
         displayHelp()
         return
     
     csvFile = sys.argv[2]
     if os.path.exists(csvFile):
-        printf(csvFile + " already exists.") 
+        print(csvFile + " already exists.") 
         displayHelp()
         return
 

@@ -15,6 +15,12 @@ class Asset:
 	def __init__(self):
 		self.data = []
 		
+	def __str__(self):
+		return self.dateListed + ";" + self.type + ";" + self.address + ";" + self.rent + ";" + self.rentedBy+ ";" + self.furnished+ ";" + self.bathrooms+ ";" + self.petFriendly+ ";" + self.lastEdited+ ";" + self.location + "\n"
+
+	def __repr__(self):
+		return self.dateListed + ";" + self.type + ";" + self.address + ";" + self.rent + ";" + self.rentedBy+ ";" + self.furnished+ ";" + self.bathrooms+ ";" + self.petFriendly+ ";" + self.lastEdited+ ";" + self.location + "\n"
+
 	def updateAttribute(self, attrName, value):
 		attrName = attrName.lower().strip()
 		value = value.strip()

@@ -29,16 +29,17 @@ def parseFile(kijijiAd):
         if (len(attrCols) >= 2):
             asset.updateAttribute(attrCols[0].text, attrCols[1].text)
 
-    print(asset.dateListed + ";" + asset.type + ";" + asset.address + ";" + asset.rent)
+    print(asset)
+    return asset
     
-    
-def analyzeFolder(folder):
+def analyzeFolder(folder, csvFile):
     print("Analyzing folder " + folder)
     for f in listdir(folder):
         if os.path.isdir(f):
-            analyzeFolder(f)
+            analyzeFolder(f, csvFile)
         else:
-            parseFile(os.path.join(folder, f))
+            asset = parseFile(os.path.join(folder, f))
+            csvFile.write(asset.__repr__())
     
 def main():
     if len(sys.argv) <= 2:
@@ -51,13 +52,14 @@ def main():
         displayHelp()
         return
     
-    csvFile = sys.argv[2]
-    if os.path.exists(csvFile):
-        print(csvFile + " already exists.") 
-        displayHelp()
-        return
+    csvFileName = sys.argv[2]
+#     if os.path.exists(csvFileName):
+#         print(csvFileName + " already exists.") 
+#         displayHelp()
+#         return
 
-    analyzeFolder(kjijiAdsFolder)
+    csvFile = open(csvFileName, "w");
+    analyzeFolder(kjijiAdsFolder, csvFile)
     
 if __name__ == "__main__":
     main()

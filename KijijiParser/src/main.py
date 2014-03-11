@@ -21,13 +21,13 @@ def parseFile(kijijiAd):
     asset = RealEstate.Asset() 
     categories = soup.body.find_all('span', itemprop="title")
     if len(categories) > 0:
-        asset.type = categories[-1].text;
+        asset.type = asset.parseType(categories[-1].text)
         
     attrTable = soup.body.find('table', id="attributeTable")
     for attrRow in attrTable.find_all('tr'):
         attrCols = attrRow.find_all('td')
         if (len(attrCols) >= 2):
-            asset.updateAttribute(attrCols[0].text, attrCols[1].text)
+            asset.parseAttribute(attrCols[0].text, attrCols[1].text)
 
     print(asset)
     return asset
@@ -59,6 +59,19 @@ def main():
 #         return
 
     csvFile = open(csvFileName, "w");
+    sampleAsset = RealEstate.Asset()
+    sampleAsset.type = "TYPE"
+    sampleAsset.rent = "RENT"
+    sampleAsset.rentedBy = "RENTED BY"
+    sampleAsset.address = "ADDRESS"
+    sampleAsset.dateListed = "DATE LISTED"
+    sampleAsset.furnished = "FURNISHED"
+    sampleAsset.bathrooms = "BATHROOMS"
+    sampleAsset.petFriendly = "PET FRIENDLY"
+    sampleAsset.lastEdited = "LAST EDITED"
+    sampleAsset.location = "LOCATION"
+    csvFile.write(sampleAsset.__repr__())
+    
     analyzeFolder(kjijiAdsFolder, csvFile)
     
 if __name__ == "__main__":

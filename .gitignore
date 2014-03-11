@@ -23,4 +23,6 @@ data
 /KijijiParser/src/lxml/*.pyc
 /KijijiParser/src/lxml/*.pyc
 
-/KijijiParser/src/KijijiStats.csv
+/KijijiParser/src/kijijiAds.csv
+
+/KijijiParser/src/*.pyc

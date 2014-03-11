@@ -5,8 +5,11 @@ from bs4 import BeautifulSoup
 
 def downloadAd(adUrl, destinationFolder):
     print(adUrl)
-    fields = adUrl.split("-")
-    filename = os.path.join(destinationFolder, fields[-1] + ".html")
+    adId = re.findall(".*/(.+)\?.*", adUrl)
+    if not adId :
+        adId = re.findall(".*/(.+)$", adUrl)
+    adId = adId[0]
+    filename = os.path.join(destinationFolder, adId + ".html")
     
     if os.path.exists(filename):
         print("Already downloaded, skipping")
@@ -34,8 +37,8 @@ def downloadAdsFromResultsPage(resultsPageUrl, destinationFolder):
         soup = BeautifulSoup(html, "lxml") 
     
         #Extract urls of each classified ad
-        for row in soup.body.find_all(id=re.compile('resultRow.*')):
-            downloadAd(row.a.get('href'), destinationFolder)
+        for row in soup.body.find_all('td', { 'class', 'description'} ):
+            downloadAd("http://www.kijiji.ca/" + row.a.get('href'), destinationFolder)
             
         #find url to the next page of ads
         nextPageTag = soup.body.find('a', text=re.compile('Suivant.*'))
@@ -51,10 +54,10 @@ def main():
     if not os.path.exists(destinationFolder): 
         os.makedirs(destinationFolder)
     
-    nextResultsPage = 'http://montreal.kijiji.ca/f-immobilier-appartements-condos-W0QQCatIdZ37';
+    nextResultsPage = '/f-immobilier-appartements-condos-W0QQCatIdZ37';
     #nextResultsPage = 'http://montreal.sdfsfsdfsdf.c';
     while nextResultsPage != None:
-        nextResultsPage = downloadAdsFromResultsPage(nextResultsPage, destinationFolder)
+        nextResultsPage = downloadAdsFromResultsPage("http://montreal.kijiji.ca" + nextResultsPage, destinationFolder)
     
 if __name__ == "__main__":
     main()

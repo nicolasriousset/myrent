@@ -34,11 +34,12 @@ def parseFile(kijijiAd):
     
 def analyzeFolder(folder, csvFile):
     print("Analyzing folder " + folder)
-    for f in listdir(folder):
-        if os.path.isdir(f):
-            analyzeFolder(f, csvFile)
-        else:
-            asset = parseFile(os.path.join(folder, f))
+    for basename in listdir(folder):
+        fullname = os.path.join(folder, basename)
+        if os.path.isdir(fullname):
+            analyzeFolder(fullname, csvFile)
+        elif os.path.splitext(fullname)[-1].lower() == ".html":
+            asset = parseFile(fullname)
             csvFile.write(asset.__repr__())
     
 def main():

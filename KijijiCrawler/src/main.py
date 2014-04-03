@@ -2,6 +2,7 @@ import urllib2
 import re
 import os
 import hashPath
+import datetime
 from bs4 import BeautifulSoup
 
 def downloadAd(adUrl, destinationFolder):
@@ -13,19 +14,26 @@ def downloadAd(adUrl, destinationFolder):
     destinationSubFolder = hashPath.getHashDirectory(destinationFolder, adId) 
     if not os.path.exists(destinationSubFolder):
         os.makedirs(destinationSubFolder)
-    filename = os.path.join(destinationSubFolder, adId + ".html")
     
-    if os.path.exists(filename):
+    # Record when the ad was downloaded for the last time
+    logFilename = os.path.join(destinationSubFolder, adId + ".log")
+    logFile = open(logFilename, 'a')
+    logFile.write(datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S\r\n"))
+    logFile.close()
+    
+    # Download the ad, if not already done
+    adFilename = os.path.join(destinationSubFolder, adId + ".html")    
+    if os.path.exists(adFilename):
         print("Already downloaded, skipping")
         return # ad already downloaded, ignore
     
     try:
-        print("Downloading to " + filename)
+        print("Downloading to " + adFilename)
         response = urllib2.urlopen(adUrl)
         html = response.read()
     
         
-        destinationFile = open(filename, "w")
+        destinationFile = open(adFilename, "w")
         destinationFile.write(html) 
         destinationFile.close()
     except urllib2.URLError as e:

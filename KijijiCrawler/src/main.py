@@ -1,6 +1,7 @@
 import urllib2
 import re
 import os
+import hashPath
 from bs4 import BeautifulSoup
 
 def downloadAd(adUrl, destinationFolder):
@@ -9,7 +10,10 @@ def downloadAd(adUrl, destinationFolder):
     if not adId :
         adId = re.findall(".*/(.+)$", adUrl)
     adId = adId[0]
-    filename = os.path.join(destinationFolder, adId + ".html")
+    destinationSubFolder = hashPath.getHashDirectory(destinationFolder, adId) 
+    if not os.path.exists(destinationSubFolder):
+        os.makedirs(destinationSubFolder)
+    filename = os.path.join(destinationSubFolder, adId + ".html")
     
     if os.path.exists(filename):
         print("Already downloaded, skipping")

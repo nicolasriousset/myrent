@@ -1,7 +1,7 @@
 import urllib2
 import re
 import os
-import hashPath
+import spool
 import datetime
 from bs4 import BeautifulSoup
 
@@ -11,7 +11,7 @@ def downloadAd(adUrl, destinationFolder):
     if not adId :
         adId = re.findall(".*/(.+)$", adUrl)
     adId = adId[0]
-    destinationSubFolder = hashPath.getHashDirectory(destinationFolder, adId) 
+    destinationSubFolder = spool.getSpoolSubfolder(destinationFolder, adId) 
     if not os.path.exists(destinationSubFolder):
         os.makedirs(destinationSubFolder)
     

@@ -23,11 +23,9 @@ def parseFile(kijijiAd):
     if len(categories) > 0:
         asset.type = asset.parseType(categories[-1].text)
         
-    attrTable = soup.body.find('table', id="attributeTable")
+    attrTable = soup.body.find('table', { 'class', 'ad-attributes'})
     for attrRow in attrTable.find_all('tr'):
-        attrCols = attrRow.find_all('td')
-        if (len(attrCols) >= 2):
-            asset.parseAttribute(attrCols[0].text, attrCols[1].text)
+        asset.parseAttribute(attrRow.find('th').text, attrRow.find('td').text)
 
     print(asset)
     return asset

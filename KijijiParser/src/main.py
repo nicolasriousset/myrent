@@ -23,9 +23,20 @@ def parseFile(kijijiAd):
     if len(categories) > 0:
         asset.type = asset.parseType(categories[-1].text)
         
-    attrTable = soup.body.find('table', { 'class', 'ad-attributes'})
-    for attrRow in attrTable.find_all('tr'):
-        asset.parseAttribute(attrRow.find('th').text, attrRow.find('td').text)
+    attrTable = soup.body.find('table', id="attributeTable")
+    if not attrTable is None: # V1 Kijiji ad formatting
+        for attrRow in attrTable.find_all('tr'):
+            attrCols = attrRow.find_all('td')
+            if (len(attrCols) >= 2):
+                asset.parseAttribute(attrCols[0].text, attrCols[1].text)
+    else : # V2 Kijiji ad formatting
+        attrTable = soup.body.find('table', { 'class', 'ad-attributes'})
+        for attrRow in attrTable.find_all('tr'):
+            th = attrRow.find('th')
+            td = attrRow.find('td')
+            if not th is None and not td is None: 
+                asset.parseAttribute(attrRow.find('th').text, attrRow.find('td').text)
+
 
     print(asset)
     return asset

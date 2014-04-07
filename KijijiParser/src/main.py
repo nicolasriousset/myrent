@@ -5,6 +5,7 @@ import sys
 import os
 from os import listdir
 import RealEstate
+import string
 
 def displayHelp():
     print("usage : " + os.path.basename(sys.argv[0]) + " <Kijiji ads folder> <destination CSV file>")
@@ -30,7 +31,12 @@ def parseFile(kijijiAd):
             if (len(attrCols) >= 2):
                 asset.parseAttribute(attrCols[0].text, attrCols[1].text)
     else : # V2 Kijiji ad formatting
+        descriptionSpan = soup.body.find('span', itemprop="description")
+        if  not descriptionSpan is None:
+            asset.description =  string.join(descriptionSpan.text.split())
         attrTable = soup.body.find('table', { 'class', 'ad-attributes'})
+        if attrTable is None:
+            return None
         for attrRow in attrTable.find_all('tr'):
             th = attrRow.find('th')
             td = attrRow.find('td')
@@ -49,7 +55,8 @@ def analyzeFolder(folder, csvFile):
             analyzeFolder(fullname, csvFile)
         elif os.path.splitext(fullname)[-1].lower() == ".html":
             asset = parseFile(fullname)
-            csvFile.write(asset.__repr__())
+            if not asset is None:
+                csvFile.write(asset.__repr__())
     
 def main():
     if len(sys.argv) <= 2:
@@ -80,6 +87,7 @@ def main():
     sampleAsset.petFriendly = "PET FRIENDLY"
     sampleAsset.lastEdited = "LAST EDITED"
     sampleAsset.location = "LOCATION"
+    sampleAsset.description = "DESCRIPTION"
     csvFile.write(sampleAsset.__repr__())
     
     analyzeFolder(kjijiAdsFolder, csvFile)
